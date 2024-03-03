@@ -36,7 +36,7 @@ pipeline {
                       //  if (params.ACTION == 'apply') {
                            // sh 'terraform fmt'
                           //  sh 'terraform validate'
-                            sh 'sudo terraform init'
+                            sh 'sudo terraform init -upgrade'
                             sh 'sudo terraform apply -auto-approve -target=vcd.crm'
                        // } else if (params.ACTION == 'destroy') {
                          //   sh 'terraform init'
