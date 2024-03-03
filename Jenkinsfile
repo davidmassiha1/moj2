@@ -35,7 +35,7 @@ pipeline {
                     if (params.TARGET) {
                         if (params.ACTION == 'apply') {
                             sh 'terraform init'
-                            sh 'terraform apply -auto-approve -target=${params.TARGET}'
+                            sh 'terraform apply -auto-approve -target='crm''
                         } else if (params.ACTION == 'destroy') {
                             sh 'terraform init'
                             sh 'terraform destroy -auto-approve -target=${params.TARGET}'
