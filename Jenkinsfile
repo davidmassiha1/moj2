@@ -37,7 +37,7 @@ pipeline {
                             sh 'terraform fmt'
                             sh 'terraform validate'
                             sh 'terraform init'
-                           // sh 'terraform apply -auto-approve -target=vcd.${params.TARGET}'
+                            sh 'terraform apply -auto-approve -target=vcd.${params.TARGET}'
                        // } else if (params.ACTION == 'destroy') {
                          //   sh 'terraform init'
                           //  sh 'terraform destroy -auto-approve -target='
