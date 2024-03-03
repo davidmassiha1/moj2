@@ -44,22 +44,23 @@ pipeline {
                           sudo terraform apply -auto-approve -target=vcd.${params.TARGET}
                           """
                           
-                       // } else if (params.ACTION == 'destroy') {
-                         //   sh 'terraform init'
-                          //  sh 'terraform destroy -auto-approve -target='
-                       // }
-                    //} else {
-                      //  if (params.ACTION == 'apply') {
-                        //    sh 'terraform init'
-                         //   sh 'terraform apply -auto-approve'
-                        //} else if (params.ACTION == 'destroy') {
-                          //  sh 'terraform init'
-                           // sh 'terraform destroy -auto-approve'
-                       // }
+                        } else if (params.ACTION == 'destroy') {
+                            sh 'terraform init'
+                            sh 'terraform destroy -auto-approve -target='
+                        }
+                    } else {
+                        if (params.ACTION == 'apply') {
+                            sh 'terraform init'
+                            sh 'terraform apply -auto-approve'
+                        } else if (params.ACTION == 'destroy') {
+                            sh 'terraform init'
+                            sh 'terraform destroy -auto-approve'
+                        }
                     }
                 }
         }
     }
+}
 }
 
 
