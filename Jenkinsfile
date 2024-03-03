@@ -22,7 +22,7 @@ pipeline {
 
                     // Navigate to the appropriate environment directory
                     dir("IaC/environments/${params.ENVIRONMENT}") {
-                        echo "Changed directory to IaC/environments/${params.ENVIRONMENT}"
+                        echo "Changed directory to IaC/environments/${params.ENVIRONMENT}/modules/${params.TARGET}"
                     }
                 }
             }
@@ -35,10 +35,10 @@ pipeline {
                     if (params.TARGET) {
                         if (params.ACTION == 'apply') {
                             sh 'terraform init'
-                            sh 'terraform apply -auto-approve -target="crm"'
+                            sh 'terraform apply -auto-approve -target=vcd.${params.TARGET}'
                         } else if (params.ACTION == 'destroy') {
                             sh 'terraform init'
-                            sh 'terraform destroy -auto-approve -target=${params.TARGET}'
+                            sh 'terraform destroy -auto-approve -target='
                         }
                     } else {
                         if (params.ACTION == 'apply') {
