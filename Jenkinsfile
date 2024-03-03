@@ -21,8 +21,8 @@ pipeline {
                     checkout scm
 
                     // Navigate to the appropriate environment directory
-                    dir("IaC/environments/${params.ENVIRONMENT}/modules/${params.TARGET}") {
-                        echo "Changed directory to IaC/environments/${params.ENVIRONMENT}/modules/${params.TARGET}"
+                    dir("IaC/environments/${params.ENVIRONMENT}") {
+                        echo "Changed directory to IaC/environments/${params.ENVIRONMENT}"
                     }
                 }
             }
