@@ -1,0 +1,105 @@
+{{- with .Values.deployment.liferay }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: liferay
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: liferay
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: liferay
+    spec:
+      containers:
+      - env:
+        - name: LIFERAY_JAVA_OPTS 
+          value: {{ .javaOpts }}
+        # ... (other environment variables)
+        image: {{ $.Values.liferay.image.repository }}:{{ $.Values.liferay.image.tag }}
+        resources:
+          requests:
+            memory: {{ $.Values.liferay.resources.requests.memory }}
+            cpu: {{ $.Values.liferay.resources.requests.cpu }}
+          limits:
+            memory: {{ $.Values.liferay.resources.limits.memory }}
+            cpu: {{ $.Values.liferay.resources.limits.cpu }}
+        name: liferay 
+        ports:
+        - containerPort: {{ .containerPorts[0] }}
+        - containerPort: {{ .containerPorts[1] }}
+        readinessProbe:
+          httpGet:
+            path: "{{ .readinessProbePath }}"
+            port: {{ .containerPorts[1] }}
+          initialDelaySeconds: {{ .readinessProbeInitialDelaySeconds }}
+          periodSeconds: {{ .readinessProbePeriodSeconds }}
+          failureThreshold: {{ .readinessProbeFailureThreshold }}
+          successThreshold: {{ .readinessProbeSuccessThreshold }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .livenessProbePort }}
+          initialDelaySeconds: {{ .livenessProbeInitialDelaySeconds }}
+          periodSeconds: {{ .livenessProbePeriodSeconds }}
+          failureThreshold: {{ .livenessProbeFailureThreshold }}
+          successThreshold: {{ .livenessProbeSuccessThreshold }}
+        volumeMounts:
+        - mountPath: /opt/liferay/data
+          name: {{ include "liferay-search-ingress-chart.fullname" . }}-data
+        - mountPath: /mnt/liferay
+          name: {{ include "liferay-search-ingress-chart.fullname" . }}-config
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "liferay-search-ingress-chart.fullname" . }}-data
+        persistentVolumeClaim:
+          claimName: {{ include "liferay-search-ingress-chart.fullname" . }}-data
+      - name: {{ include "liferay-search-ingress-chart.fullname" . }}-config
+        persistentVolumeClaim:
+          claimName: {{ include "liferay-search-ingress-chart.fullname" . }}-config
+{{- end }}
+
+{{- with .Values.deployment.search }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: search
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: search
+  strategy:
+    type: {{ .strategyType }}
+  template:
+    metadata:
+      labels:
+        app: search
+    spec:
+      containers:
+      - env:
+        # ... (environment variables for search container)
+        image: {{ $.Values.elasticsearch.image.repository }}:{{ $.Values.elasticsearch.image.tag }}
+        resources:
+          limits:
+            memory: {{ $.Values.elasticsearch.resources.limits.memory }}
+            cpu: {{ $.Values.elasticsearch.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .containerPorts[0] }}
+        name: search
+        volumeMounts:
+        - mountPath: /lcp-container
+          name: {{ include "liferay-search-ingress-chart.fullname" . }}-claim
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "liferay-search-ingress-chart.fullname" . }}-claim
+        persistentVolumeClaim:
+          claimName: {{ include "liferay-search-ingress-chart.fullname" . }}-claim
+{{- end }}

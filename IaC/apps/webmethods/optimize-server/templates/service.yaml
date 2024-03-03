@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-optimize-server
+  labels:
+    app: optimize-server
+spec:
+  selector:
+    app: optimize-server
+  ports:
+    - protocol: TCP
+      port: {{ .Values.optimizeServer.ports.server }}
+      targetPort: {{ .Values.optimizeServer.ports.server }}
+    - protocol: TCP
+      port: {{ .Values.optimizeServer.ports.admin }}
+      targetPort: {{ .Values.optimizeServer.ports.admin }}

@@ -1,0 +1,32 @@
+image:
+  repository: softwareag/command-central
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 8091
+  nodePort: 30006
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+database:
+  host: postgresql.example.com
+  port: 5432
+  username: admin
+  password: mysecretpassword
+
+messaging:
+  host: messaging.example.com
+  port: 9000
+
+license:
+  file: /path/to/license.xml

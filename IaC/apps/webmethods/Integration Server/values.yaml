@@ -1,0 +1,28 @@
+integrationServer:
+  replicas: 1
+  image:
+    repository: myregistry/integration-server
+    tag: latest
+  ports:
+    server: 5555
+    admin: 9999
+  instanceName: default
+  password: "mysecretpassword"
+  storageSize: "1Gi"
+
+configMap:
+  serverCnf: |
+    # Integration Server configuration
+    # Add your server configuration here
+  loggingCnf: |
+    # Logging configuration
+    # Add your logging configuration here
+
+secrets:
+  password: "mysecretpassword"
+
+persistentVolumeClaim:
+  storageSize: "1Gi"
+
+ingress:
+  host: integration.example.com

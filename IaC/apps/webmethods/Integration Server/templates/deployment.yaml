@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-integration-server
+  labels:
+    app: integration-server
+spec:
+  replicas: {{ .Values.integrationServer.replicas }}
+  selector:
+    matchLabels:
+      app: integration-server
+  template:
+    metadata:
+      labels:
+        app: integration-server
+    spec:
+      containers:
+      - name: integration-server
+        image: {{ .Values.integrationServer.image.repository }}:{{ .Values.integrationServer.image.tag }}
+        ports:
+        - containerPort: {{ .Values.integrationServer.ports.server }}
+        - containerPort: {{ .Values.integrationServer.ports.admin }}
+        env:
+        - name: INSTANCE_NAME
+          value: {{ .Values.integrationServer.instanceName }}
+        # Add volume mounts and other configurations as needed

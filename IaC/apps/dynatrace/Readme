@@ -1,0 +1,11 @@
+To create the namespace and apply the operator run the following commands
+
+kubectl create namespace dynatrace
+#kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/latest/download/kubernetes.yaml
+kubectl apply -f ./kubernetes.yaml
+
+A secret holding tokens for authenticating to the Dynatrace cluster needs to be created upfront. Create access tokens of type Dynatrace API and use its values in the following commands respectively. For assistance please refer to Create user-generated access tokens.
+
+The token scopes required by the Dynatrace Operator are documented on our official help page
+
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=DYNATRACE_API_TOKEN" --from-literal="dataIngestToken=DATA_INGEST_TOKEN"

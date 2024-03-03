@@ -1,0 +1,4 @@
+apiVersion: v2
+name: command-central
+version: 1.0.0
+description: A Helm chart for deploying Software AG Command Central on Kubernetes.

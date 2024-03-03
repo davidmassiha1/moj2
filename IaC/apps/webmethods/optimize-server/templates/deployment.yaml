@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-optimize-server
+  labels:
+    app: optimize-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: optimize-server
+  template:
+    metadata:
+      labels:
+        app: optimize-server
+    spec:
+      containers:
+      - name: optimize-server
+        image: {{ .Values.optimizeServer.image.repository }}:{{ .Values.optimizeServer.image.tag }}
+        ports:
+        - containerPort: {{ .Values.optimizeServer.ports.server }}
+        - containerPort: {{ .Values.optimizeServer.ports.admin }}

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-centrasite
+  labels:
+    app: centrasite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: centrasite
+  template:
+    metadata:
+      labels:
+        app: centrasite
+    spec:
+      containers:
+      - name: centrasite
+        image: {{ .Values.centrasite.image.repository }}:{{ .Values.centrasite.image.tag }}
+        ports:
+        - containerPort: {{ .Values.centrasite.ports.internal }}
+        - containerPort: {{ .Values.centrasite.ports.external }}

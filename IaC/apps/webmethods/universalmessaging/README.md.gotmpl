@@ -1,0 +1,63 @@
+# webMethods Universal Messaging Helm Chart
+
+This Helm Chart installs and configures a Universal Messaging (UM) container.
+
+## Prerequisites
+
+### Image Pull Secret
+
+If you want to pull image from Software AG Containers Registry, create secret with your Software AG Containers Registry credentials ...
+
+```
+kubectl create secret docker-registry regcred --docker-server=sagcr.azurecr.io --docker-username=<your-name> --docker-password=<your-pwd> --docker-email=<your-email>
+```
+
+### Licenses
+
+Universal Messaging requires a license file. These license is supposed to be provided as configmap.
+
+Hence before running `helm install` create the configmap:
+
+```
+kubectl create configmap universalmessaging-licence-key --from-file=licence.xml=<your path and filename to Universal Messaging license file>
+```
+
+Optionally you can also provide the license directly when installing your release (see also below).
+
+## Examples for Use-cases
+
+Sub-folder `examples` contains some *values* examples for more use-cases. To use the use-case, adapt and add the provided `values.yaml` to your values.
+
+| Use-case | Description |
+|-----|------|
+| [post-init](../examples/post-init/README.md) | Post-initialize UM server deployment |
+
+## Install Universal Messaging Release
+
+Install release
+
+```shell
+helm install um webmethods/universalmessaging
+```
+
+... (optionally) provide the license key at installation time (can be ommitted for upgrade later) ...
+
+```shell
+--set-file=licensekey=<your path and filename to Universal Messaging license file> \
+```
+
+... set your own image pull secret if you didn't create the default `regcred` ... 
+
+```shell
+--set "imagePullSecrets[0].name=your-registry-credentials" \
+```
+
+## Version History
+
+| Version | Changes and Description |
+|-----|------|
+| `1.0.0` | Initial release |
+| `1.0.1` | Update JMX Exporter configuration file from latest [UM Git repository](https://github.com/SoftwareAG/universalmessaging-prometheus-jmx-exporter-config). Bugfix: Mount configuration files into container. Nginx added. |
+| `1.0.2` | Change startup, liveness and readiness probes. All configuration settings are in `values.yaml`. Now, The probes are using `httpGet` instead of `runUMTool.sh` utility. |
+
+{{ template "chart.valuesSection" . }}

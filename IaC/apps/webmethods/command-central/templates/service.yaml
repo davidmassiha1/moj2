@@ -1,0 +1,21 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-command-central-service
+spec:
+  selector:
+    app: {{ .Release.Name }}-command-central
+  ports:
+  - protocol: TCP
+    port: {{ .Values.commandCentral.ports.port1 }}
+    targetPort: {{ .Values.commandCentral.ports.port1 }}
+  - protocol: TCP
+    port: {{ .Values.commandCentral.ports.port2 }}
+    targetPort: {{ .Values.commandCentral.ports.port2 }}
+  - protocol: TCP
+    port: {{ .Values.commandCentral.ports.port3 }}
+    targetPort: {{ .Values.commandCentral.ports.port3 }}
+  - protocol: TCP
+    port: {{ .Values.commandCentral.ports.port4 }}
+    targetPort: {{ .Values.commandCentral.ports.port4 }}

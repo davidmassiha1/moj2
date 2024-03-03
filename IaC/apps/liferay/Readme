@@ -1,0 +1,13 @@
+##Use custom liferay docker image to install sql server connector
+docker build -t liferay:7.4-sql .
+
+##Initialize configurations of Liferay to the volume mount
+
+#Get liferay pod
+kubectl get pods -l app=liferay -n=<namespace>
+
+#Copy files to the liferay mount point
+kubectl cp ./files <pod-name>:/mnt/liferay -n=<namespace>
+
+#Restart the liferay app
+kubectl delete pods <pod-name> -n=<namespace>

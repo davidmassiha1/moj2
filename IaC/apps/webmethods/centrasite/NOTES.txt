@@ -1,0 +1,9 @@
+Thank you for installing Software AG CentraSite!
+
+To access CentraSite, use the following commands:
+
+1. Get the CentraSite URL:
+   export CENTRASITE_URL=$(minikube service --url {{ include "centrasite.fullname" . }})
+
+2. Access CentraSite:
+   curl $CENTRASITE_URL

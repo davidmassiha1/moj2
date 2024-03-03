@@ -1,0 +1,100 @@
+# Global values
+global:
+  nameOverride: ""
+  fullnameOverride: ""
+
+# Liferay values
+liferay:
+  image:
+#    repository: liferay/dxp
+#    tag: 7.4.13-u111
+    repository: liferay
+    tag: 7.4-sql
+  resources:
+    requests:
+      memory: "2048Mi"
+      cpu: "2"
+    limits:
+      memory: "4098Mi"
+      cpu: "3"
+
+# Elasticsearch values
+elasticsearch:
+  image:
+    repository: liferaycloud/elasticsearch
+    tag: 7.17.16-5.2.1
+  resources:
+    limits:
+      memory: "2024Mi"
+      cpu: "2"
+
+# Service values
+service:
+  liferay:
+    ports:
+      - name: "8080"
+        port: 8080
+
+  search:
+    ports:
+      - port: 9300
+
+# Persistent Volume Claim values
+persistentVolumeClaim:
+  liferay-data:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+
+  liferay-config:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+
+  search-claim:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 100Mi
+
+# Deployment values
+deployment:
+  liferay:
+    replicas: 1
+    javaOpts: "-Xms2g -Xmx2g"
+    containerPorts:
+      - 11311
+      - 8080
+    readinessProbePath: "/c/portal/layout"
+    readinessProbeInitialDelaySeconds: 120
+    readinessProbePeriodSeconds: 15
+    readinessProbeFailureThreshold: 3
+    readinessProbeSuccessThreshold: 3
+    livenessProbePort: 8080
+    livenessProbeInitialDelaySeconds: 120
+    livenessProbePeriodSeconds: 20
+    livenessProbeFailureThreshold: 3
+    livenessProbeSuccessThreshold: 1
+
+  search:
+    replicas: 1
+    javaOpts: "-Xms1g -Xmx1g"
+    containerPorts:
+      - 9300
+    strategyType: "Recreate"
+
+# Ingress values
+ingress:
+  name: "nginx-ingress"
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  host: "liferay.kubernetes.com"
+  path: "/"

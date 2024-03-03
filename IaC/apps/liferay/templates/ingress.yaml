@@ -1,0 +1,16 @@
+{{- with .Values.ingress }}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .name }}
+  annotations:
+    {{- toYaml .annotations | nindent 4 }}
+spec:
+  rules:
+  - host: {{ .host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "liferay-search-ingress-chart.fullname" . }}
+          servicePort: {{ .path }}
+{{- end }}

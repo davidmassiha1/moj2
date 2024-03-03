@@ -1,0 +1,26 @@
+{{- with .Values.service.liferay }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: liferay
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}
+spec:
+  ports:
+    - name: "8080"
+      port: {{ .ports[0].port }}
+  selector:
+    app: liferay
+{{- end }}
+
+{{- with .Values.service.search }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}
+spec:
+  ports:
+    - port: {{ .ports[0].port }}
+  selector:
+    app: search
+{{- end }}

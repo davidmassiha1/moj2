@@ -1,0 +1,15 @@
+dependencies:
+  - name: postgresql
+    version: ">=1.0.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+    tags:
+      - database
+      - postgresql
+  - name: universal-messaging
+    version: ">=1.0.0"
+    repository: "https://charts.softwareag.com/devops"
+    condition: universal-messaging.enabled
+    tags:
+      - messaging
+      - universal-messaging

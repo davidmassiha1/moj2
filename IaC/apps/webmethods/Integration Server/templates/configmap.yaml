@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-integration-server-config
+data:
+  server.cnf: |-
+    # Integration Server configuration
+    # Add your server configuration here
+  logging.cnf: |-
+    # Logging configuration
+    # Add your logging configuration here

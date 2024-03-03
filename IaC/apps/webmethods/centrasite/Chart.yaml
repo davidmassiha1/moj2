@@ -1,0 +1,4 @@
+apiVersion: v2
+name: centrasite
+version: 1.0.0
+description: A Helm chart for deploying Software AG CentraSite on Kubernetes.

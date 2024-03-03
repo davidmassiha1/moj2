@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-command-central
+spec:
+  replicas: {{ .Values.commandCentral.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-command-central
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-command-central
+    spec:
+      containers:
+      - name: command-central
+        image: "{{ .Values.commandCentral.image }}"
+        ports:
+        - containerPort: {{ .Values.commandCentral.ports.port1 }}
+        - containerPort: {{ .Values.commandCentral.ports.port2 }}
+        - containerPort: {{ .Values.commandCentral.ports.port3 }}
+        - containerPort: {{ .Values.commandCentral.ports.port4 }}
+        # Add other container configurations as needed
+        volumeMounts:
+        - name: licenses
+          mountPath: /opt/softwareag/licenses
+      volumes:
+      - name: licenses
+        # Add configuration for licenses volume if needed

@@ -1,0 +1,44 @@
+{{- with .Values.persistentVolumeClaim.liferay-data }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: liferay-data
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}-data
+spec:
+  accessModes:
+    - {{ .accessModes[0] }}
+  resources:
+    requests:
+      storage: {{ .resources.requests.storage }}
+{{- end }}
+
+{{- with .Values.persistentVolumeClaim.liferay-config }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: liferay-config
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}-config
+spec:
+  accessModes:
+    - {{ .accessModes[0] }}
+  resources:
+    requests:
+      storage: {{ .resources.requests.storage }}
+{{- end }}
+
+{{- with .Values.persistentVolumeClaim.search-claim }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: search-claim
+  name: {{ include "liferay-search-ingress-chart.fullname" . }}-claim
+spec:
+  accessModes:
+    - {{ .accessModes[0] }}
+  resources:
+    requests:
+      storage: {{ .resources.requests.storage }}
+{{- end }}

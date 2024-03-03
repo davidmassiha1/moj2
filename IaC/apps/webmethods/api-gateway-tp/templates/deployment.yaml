@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "api-gateway-threat-protection.fullname" . }}
+  labels:
+    app: {{ include "api-gateway-threat-protection.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "api-gateway-threat-protection.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "api-gateway-threat-protection.name" . }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 443
+        resources:
+{{ toYaml .Values.resources | indent 8 }}
+

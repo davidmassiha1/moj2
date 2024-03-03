@@ -1,0 +1,9 @@
+Thank you for installing webMethods Integration Server!
+
+To access the Integration Server, use the following commands:
+
+1. Get the Integration Server URL:
+   export INTEGRATION_SERVER_URL=$(minikube service --url {{ include "integration-server.fullname" . }})
+
+2. Access the Integration Server:
+   curl $INTEGRATION_SERVER_URL

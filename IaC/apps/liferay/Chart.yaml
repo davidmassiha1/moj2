@@ -1,0 +1,4 @@
+apiVersion: v2
+name: liferay-search-ingress-chart
+description: A Helm chart for Liferay, Elasticsearch, and Ingress
+version: 0.1.0

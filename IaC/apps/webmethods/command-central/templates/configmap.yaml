@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-command-central-config
+data:
+  commandcentral.properties: |-
+    # Command Central Configuration
+    database.url: jdbc:postgresql://{{ .Values.database.host }}:{{ .Values.database.port }}/commandcentral
+    database.username: {{ .Values.database.username }}
+    database.password: {{ .Values.database.password }}
+    messaging.url: nsp://{{ .Values.messaging.host }}:{{ .Values.messaging.port }}
+    license.file: /opt/softwareag/licenses/license.xml
+    # Add other Command Central configurations here

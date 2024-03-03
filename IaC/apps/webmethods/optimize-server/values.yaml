@@ -1,0 +1,34 @@
+optimizeServer:
+  image:
+    repository: myregistry/optimize-server
+    tag: latest
+  ports:
+    server: 5555
+    admin: 9999
+  resources:
+    requests:
+      cpu: "0.5"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+  # If you have additional configuration parameters for Optimize Server, you can define them here
+  # For example:
+  # config:
+  #   enableFeatureX: true
+  #   featureXOptions:
+  #     option1: value1
+  #     option2: value2
+  # If you need to mount configuration files as ConfigMap or Secrets, you can reference them here
+  # For example:
+  # configMap:
+  #   enabled: true
+  #   name: optimize-server-config
+  # secrets:
+  #   enabled: true
+  #   name: optimize-server-secrets
+  # If Optimize Server requires persistent storage, you can define the PersistentVolumeClaim here
+  # For example:
+  # storage:
+  #   enabled: true
+  #   size: 10Gi
